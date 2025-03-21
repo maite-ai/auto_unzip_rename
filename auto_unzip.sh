@@ -50,6 +50,10 @@ for challenge in "${challenges[@]}"; do
         unzip_output=$(unzip -l "$zip_file")
         echo "$unzip_output"
 
+        # Obtener el nombre del archivo original
+        original_ipynb=$(find . -maxdepth 1 -type f -name "*.ipynb" | head -1)
+        original_ipynb_name=$(basename "$original_ipynb")
+
         # creo carpeta temporal donde va a estar almacenado el ipynb
         temp_dir=$(mktemp -d)
         log_info "Creando directorio temporal: ${temp_dir}"
@@ -65,7 +69,7 @@ for challenge in "${challenges[@]}"; do
         solution_ipynb_name=$(basename "$solution_ipynb")
         log_info "Archivo ipynb de solución encontrado: ${solution_ipynb_name}"
 
-        cp "$solution_ipynb" "./sol_$solution_ipynb"
+        cp "$solution_ipynb" "sol_$original_ipynb_name"
 
         # borrar el directorio temporal
         rm -rf "$temp_dir"
